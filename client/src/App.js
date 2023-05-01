@@ -92,12 +92,13 @@ export default function App() {
                     <h3>Your IP: {userIP.current}</h3>
 
                     <label>Choose a database:</label>
-
-                    <select onChange={(e)=>{curTableLink.current=e.target.value;updateData();}}>
-                        <option value="short">short</option>
-                        <option value="small">small</option>
-                        <option value="short-link">short-link</option>
-                    </select>
+                    <div >
+                        <select className={styles.select} onChange={(e)=>{curTableLink.current=e.target.value;updateData();}}>
+                            <option value="short">short</option>
+                            <option value="small">small</option>
+                            <option value="short-link">short-link</option>
+                        </select>
+                    </div>
                     <form onSubmit={handleOnSubmit}>
                         <div className={styles.group}>
                             <input className={styles.input} pattern="https://.*" type="url" required value={newUrl} onChange={(e)=>{setNewUrl(e.target.value);}}/>
@@ -105,7 +106,7 @@ export default function App() {
                             <span></span>
                             <label className={styles.inputLabel}>Enter your url</label>
                         </div>
-                        <button type="submit">
+                        <button className={styles.button} type="submit">
                             Create Short Url
                         </button>
                     </form>
@@ -155,7 +156,7 @@ export default function App() {
                                             {urlObject.clicked}
                                         </td>
                                         <td>
-                                            <button onClick={async ()=>{
+                                            <button className={styles.button} onClick={async ()=>{
                                                 const  response = await fetch(`/api/${curTableLink.current}/${urlObject.code}`,{
                                                     method:"DELETE",
                                                     headers:{
