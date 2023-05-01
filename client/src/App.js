@@ -1,7 +1,5 @@
-import styles from './styles/inputForm.module.css'
+import styles from './styles/index.module.css'
 import React, {useEffect, useRef, useState} from "react";
-// import connectMongo from "./utils/connectMongo";
-// import Urls from "./models/urls";
 async function getIP() {
 
     // if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){    //This used to test on dev server and not run build every time
@@ -93,20 +91,19 @@ export default function App() {
                     <h2>Url Shortener</h2>
                     <h3>Your IP: {userIP.current}</h3>
 
-                    <label htmlFor="cars">Choose a database:</label>
+                    <label>Choose a database:</label>
 
                     <select onChange={(e)=>{curTableLink.current=e.target.value;updateData();}}>
                         <option value="short">short</option>
                         <option value="small">small</option>
                         <option value="short-link">short-link</option>
                     </select>
-
                     <form onSubmit={handleOnSubmit}>
                         <div className={styles.group}>
-                            <input pattern="https://.*" type="url" required value={newUrl} onChange={(e)=>{setNewUrl(e.target.value);}}/>
-                            <span className="highlight"></span>
-                            <span className="bar"></span>
-                            <label>Enter your url</label>
+                            <input className={styles.input} pattern="https://.*" type="url" required value={newUrl} onChange={(e)=>{setNewUrl(e.target.value);}}/>
+                            <span></span>
+                            <span></span>
+                            <label className={styles.inputLabel}>Enter your url</label>
                         </div>
                         <button type="submit">
                             Create Short Url
@@ -114,20 +111,21 @@ export default function App() {
                     </form>
                 </div>
                 <div>
-                    <table>
+                    <table className={styles.refs}>
                         <thead>
                         <tr>
                             <th scope="col">Original URL</th>
                             <th scope="col">Short URL</th>
                             <th scope="col">Owner</th>
                             <th scope="col">Clicked</th>
+                            <th scope="col">Delete btn</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
                             data.map((urlObject)=>(
                                 <React.Fragment key = {urlObject.code}>
-                                    <tr scope="row">
+                                    <tr>
                                         <td>{
                                             <a href={urlObject.url}>
                                                 {urlObject.url.slice(0,120)}
@@ -136,7 +134,6 @@ export default function App() {
                                         }</td>
                                         <td>
                                             <a href={"/"} onClick={async (e) => {
-                                                //window.open(this.href, '_blank', 'noreferrer')
                                                 e.preventDefault();
                                                 const res = await fetch( `/api/${curTableLink.current}/${urlObject.code}`, {
                                                     method: "GET",
@@ -183,18 +180,3 @@ export default function App() {
         </>
     );
 }
-
-// //To prerender page on server, actually useless in my case. It's just for search engines.
-// export async function  getServerSideProps(context){
-//     await connectMongo();
-//     let urlList = await Urls("short").find({owner: 'All'});
-//     urlList= JSON.parse(JSON.stringify(urlList));//weird but works :/
-//     return{
-//         props:{
-//             urlList,
-//         },
-//     };
-// }
-//
-
-
