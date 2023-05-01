@@ -1,6 +1,7 @@
 {
   "name": "link_shortener_react",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "client": "cd client && npm start",
     "server": "nodemon server.js",
@@ -8,7 +9,10 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "dotenv": "^16.0.3",
+    "express": "^4.16.4",
+    "mongoose": "^7.1.0",
+    "nanoid": "^4.0.2"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

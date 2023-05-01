@@ -1,6 +1,8 @@
 import {nanoid} from "nanoid";
 
-import {Schema, models, model} from "mongoose";
+//import {Schema, models, model} from "mongoose";
+import pkg from 'mongoose';
+const {Schema, models, model} = pkg;
 
 const UrlSchema = new Schema({
     code:{

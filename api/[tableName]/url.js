@@ -1,5 +1,5 @@
-import connectMongo from "../../utils/connectMongo";
-import Urls from "../../models/urls";
+import connectMongo from "../../utils/connectMongo.js";
+import Urls from "../../models/urls.js";
 import {nanoid} from "nanoid";
 
 

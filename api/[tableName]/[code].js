@@ -1,5 +1,5 @@
-import Urls from "../../models/urls";
-import connectMongo from "../../utils/connectMongo";
+import Urls from "../../models/urls.js";
+import connectMongo from "../../utils/connectMongo.js";
 
 async function handler(req,res){
 
