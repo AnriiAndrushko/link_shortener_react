@@ -3,6 +3,6 @@ import App from '../App';
 
 test('renders header', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Link shortener/i);
+  const linkElement = screen.getByText(/Url Shortener/i);
   expect(linkElement).toBeInTheDocument();
 });

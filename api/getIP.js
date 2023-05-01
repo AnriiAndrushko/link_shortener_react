@@ -6,5 +6,4 @@ async function handler(req,res){
     }
     return res.status(404);
 }
-
 export default handler;
