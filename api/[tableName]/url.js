@@ -22,7 +22,7 @@ async function handler(req,res){
         });
         return res.status(201).json(newUrl);
     }
-    return res.status(404);
+    return res.sendStatus(404);
 }
 
 //insecure because no login system so can pass any ip

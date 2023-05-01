@@ -4,6 +4,6 @@ async function handler(req,res){
             req.socket.remoteAddress ||
             null);
     }
-    return res.status(404);
+    return res.sendStatus(404);
 }
 export default handler;
