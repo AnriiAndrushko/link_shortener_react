@@ -4,7 +4,7 @@ import {nanoid} from "nanoid";
 
 
 async function handler(req,res){
-    const { tableName } = req.query;
+    const { tableName } = req.params;
     if(req.method === "GET"){
         let userIP = req.query.userIP;
         await connectMongo();

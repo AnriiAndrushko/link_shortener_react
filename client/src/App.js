@@ -135,9 +135,19 @@ export default function App() {
                                             </a>
                                         }</td>
                                         <td>
-                                            <a target="_blank" href={`/api/${curTableLink.current}/${urlObject.code}`} onClick={()=> {
-                                                data[data.findIndex(el=>el.code===urlObject.code)].clicked++;
-                                                setData([...data])}}>
+                                            <a href={"/"} onClick={async (e) => {
+                                                //window.open(this.href, '_blank', 'noreferrer')
+                                                e.preventDefault();
+                                                const res = await fetch( `/api/${curTableLink.current}/${urlObject.code}`, {
+                                                    method: "GET",
+                                                    headers: {
+                                                        "content-type": "application/json",
+                                                    },
+                                                });
+                                                data[data.findIndex(el => el.code === urlObject.code)].clicked++;
+                                                setData([...data]);
+                                                window.open(await res.json(), '_blank', 'noreferrer')
+                                            }}>
                                                 {urlObject.code}
                                             </a>
                                         </td>

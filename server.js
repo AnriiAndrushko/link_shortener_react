@@ -14,8 +14,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/getIP', getIP);
+
 app.get('/api/:tableName/url', url);
+app.post('/api/:tableName/url', url);
+
 app.get('/api/:tableName/:code', code);
+app.delete('/api/:tableName/:code', code);
 
 app.get('/api/hello', (req, res) => {
     res.send({ express: 'Hello From Server' });

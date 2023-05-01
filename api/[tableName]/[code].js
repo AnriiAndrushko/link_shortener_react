@@ -3,7 +3,7 @@ import connectMongo from "../../utils/connectMongo.js";
 
 async function handler(req,res){
 
-    const { code, tableName } = req.query;
+    const { code, tableName } = req.params;
 
     if(req.method==="GET") {
         await connectMongo();
@@ -11,7 +11,7 @@ async function handler(req,res){
         if (data) {
             data.clicked++;
             data.save();
-            return res.redirect(data.url);
+            return res.json(data.url);
         } else {
             return res.status(404).json("Incorrect url");
         }
