@@ -1,32 +1,10 @@
 import styles from './styles/index.module.css'
 import React, {useEffect, useRef, useState} from "react";
-async function getIP() {
-
-    // if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){    //This used to test on dev server and not run build every time
-    //     let data;
-    //     try {
-    //         const response = await fetch('https://geolocation-db.com/json/');
-    //         data = await response.json();
-    //     }catch (err){
-    //         console.log(err);
-    //     }
-    //     return data?data.IPv4:"All";
-    // }else{
-    let ip;
-    try {
-        const response = await fetch("/api/getIP",{
-            method:"GET",
-            headers:{
-                "content-type":"application/json",
-            },
-        });
-        ip = await response.json()
-    }catch (err){
-        console.log(err);
-    }
-    return ip?ip:"All";
-    // }
-}
+import getIP from "./api_calls/getIP";
+import getTableData from "./api_calls/getTableData";
+import postNewUrl from "./api_calls/postNewUrl";
+import getUrlByCode from "./api_calls/getUrlByCode";
+import deleteUrlByCode from "./api_calls/deleteUrlByCode";
 
 export default function App() {
     const [data,setData] = useState([]);
@@ -40,24 +18,11 @@ export default function App() {
 
     const updateData = ()=>{
         setIsLoading(true);
-
         const gettingIP = async ()=>{
-            let ip = await getIP();
-            userIP.current = ip;
-            return ip;
+            userIP.current = await getIP();
         }
-
-        gettingIP().then(()=>{
-            return fetch("/api/"+curTableLink.current+"/url?userIP="+userIP.current,{
-                method:"GET",
-                headers:{
-                    "content-type":"application/json",
-                },
-            })
-        }).then(res=> res.json()).then(res=>{
-
-            setData(res);
-
+        gettingIP().then(async () => {
+            setData(await getTableData(curTableLink.current, userIP.current));
         }).finally(()=>{
             setIsLoading(false);
         });
@@ -67,22 +32,11 @@ export default function App() {
         e.preventDefault();
         const _newUrl = newUrl;
         setNewUrl("");
-
-        const  response = await fetch("/api/"+curTableLink.current+"/url",{
-            method:"POST",
-            headers:{
-                "content-type":"application/json"
-            },
-            body:JSON.stringify({url:_newUrl, userIP:await getIP(),}),
-        });
-        const content = await response.json()
+        const content = await postNewUrl(curTableLink.current, userIP.current, _newUrl);
         if(content){
             setData([...data, content]);
         }
     };
-
-
-
 
     return (
         <>
@@ -136,15 +90,10 @@ export default function App() {
                                         <td>
                                             <a href={"/"} onClick={async (e) => {
                                                 e.preventDefault();
-                                                const res = await fetch( `/api/${curTableLink.current}/${urlObject.code}`, {
-                                                    method: "GET",
-                                                    headers: {
-                                                        "content-type": "application/json",
-                                                    },
-                                                });
+                                                const url = await getUrlByCode(curTableLink.current, urlObject.code);
                                                 data[data.findIndex(el => el.code === urlObject.code)].clicked++;
                                                 setData([...data]);
-                                                window.open(await res.json(), '_blank', 'noreferrer')
+                                                window.open(url, '_blank', 'noreferrer')
                                             }}>
                                                 {urlObject.code}
                                             </a>
@@ -157,12 +106,7 @@ export default function App() {
                                         </td>
                                         <td>
                                             <button className={styles.button} onClick={async ()=>{
-                                                const  response = await fetch(`/api/${curTableLink.current}/${urlObject.code}`,{
-                                                    method:"DELETE",
-                                                    headers:{
-                                                        "content-type":"application/json"
-                                                    },
-                                                });
+                                                const response = await deleteUrlByCode(curTableLink.current, urlObject.code);
                                                 if(response.status===200){
                                                     setData([...data.filter(d=>d.code!==urlObject.code)]);
                                                 }
