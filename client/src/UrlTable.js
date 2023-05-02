@@ -10,7 +10,7 @@ export default function UrlTable(props) {
         const url = await getUrlByCode(curTableLink.current, urlObject.code);
         data[data.findIndex(el => el.code === urlObject.code)].clicked++;
         setData([...data]);
-        window.open(url, '_blank', 'noreferrer')
+        window.open(url, '_blank', 'noreferrer');
     };
 
     const handleOnDelete = async (urlObject) => {
@@ -25,11 +25,11 @@ export default function UrlTable(props) {
             <table className={styles.refs}>
                 <thead>
                 <tr>
-                    <th scope="col">Original URL</th>
-                    <th scope="col">Short URL</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Clicked</th>
-                    <th scope="col">Delete btn</th>
+                    <th scope="col">Original URL </th>
+                    <th scope="col">Short URL </th>
+                    <th scope="col">Owner </th>
+                    <th scope="col">Clicked </th>
+                    <th scope="col">Delete btn </th>
                 </tr>
                 </thead>
                 <tbody>
